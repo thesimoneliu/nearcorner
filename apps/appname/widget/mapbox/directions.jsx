@@ -41,9 +41,9 @@ const code = `
 
 <script>
 async function markStreets() {
-    const response = await fetch('https://jessiejessje.github.io/hackoween/mydata_clean.json');
-    const data = await response.json();
-
+    // const response = await fetch('https://jessiejessje.github.io/hackoween/mydata_clean.json');
+    // const data = await response.json();
+    const data = ${JSON.stringify(data.body)}
 
     const accessToken = 'pk.eyJ1IjoiZWpsYnJhZW0iLCJhIjoiY2xrbmIwaW53MGE0NTNtbGsydWd2MmpyZSJ9.m1ZfEqv2fGet2zblGknT8A';
 
@@ -73,7 +73,11 @@ async function markStreets() {
     map.addControl(directions, 'bottom-left');
 
     for (const d of data) {
-        new mapboxgl.Marker().setLngLat([d.long, d.lat]).addTo(map);
+        const marker = new mapboxgl.Marker().setLngLat([d.long, d.lat]).addTo(map);
+
+        marker.on("click")
+
+        parent.postMessage()
     }
 
 }
@@ -91,6 +95,6 @@ markStreets();
 
 return (
   <Container>
-    <iframe id='myMap' className='w-100 h-100' srcDoc={code} />
+    <iframe id='myMap' className='w-100 h-100' srcDoc={code} onMessage={State} />
   </Container>
 );
