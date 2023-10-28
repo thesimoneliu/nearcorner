@@ -142,7 +142,7 @@ const code = `
                     const buffer = turf.buffer(geojson, bufferDistance, {units: 'kilometers'});
                     const poly = turf.polygon([buffer.geometry.coordinates[0]])
 
-                    instructions.innerHTML = "<p><strong>NYC Memorial Street Names along the route: </strong></p>";
+                    instructions.innerHTML = "<p><strong>NYC Memorial Street Names along the route: </strong></p><button><h4> + Collect</h4></button><br></br>";
 
                     removeAllMarkers(); 
                     console.log(markers, 'markers');
