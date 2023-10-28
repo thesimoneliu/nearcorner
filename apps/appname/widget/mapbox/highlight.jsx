@@ -1,12 +1,5 @@
 const mydata = fetch('https://jessiejessje.github.io/hackoween/mydata_clean.json');
-const md = JSON.stringify(mydata.body);
-// const arr = JSON.parse(md);
-const street_name_data = md;
-
-// if (arr) {
-//   let st = arr.filter(d => d.borough === 'Manhattan');
-//   street_name_data = JSON.stringify(st);
-// }
+const street_name_data = JSON.stringify(mydata.body);
 
 const token = `pk.eyJ1IjoiZWpsYnJhZW0iLCJhIjoiY2xrbmIwaW53MGE0NTNtbGsydWd2MmpyZSJ9.m1ZfEqv2fGet2zblGknT8A`;
 
@@ -88,7 +81,15 @@ const code = `
 
             const start = [-73.9783516, 40.7871829];
             const instructions = document.getElementById('instructions');
-            let catalog = '';
+            
+            const markers = []; 
+                         
+            function removeAllMarkers() {
+                for (const marker of markers) {
+                    marker.remove(); // Remove the marker from the map
+                }
+                markers.length = 0;
+            }
 
             async function getRoute(end) {
 
@@ -133,29 +134,18 @@ const code = `
                     }
                 });
 
-                let markers = [];
-                const emojiUnicode = '&#x1F383';
-                const pumpkin = new Image(60,60);
-                pumpkin.src = ('https://jessiejessje.github.io/hackoween/pumpkin.png');
-          
-                function removeAllMarkers() {
-                    for (const marker of markers) {
-                        marker.remove(); // Remove the marker from the map
-                    }
-                    // Clear the markers array
-                    markers.length = 0;
-                }
+
 
                 if (map.getSource('route')) {
 
-                    const bufferDistance = 0.8;
+                    const bufferDistance = 0.5;
                     const buffer = turf.buffer(geojson, bufferDistance, {units: 'kilometers'});
                     const poly = turf.polygon([buffer.geometry.coordinates[0]])
 
                     instructions.innerHTML = "<p><strong>NYC Memorial Street Names along the route: </strong></p>";
 
                     removeAllMarkers(); 
-                    markers = [];
+                    console.log(markers, 'markers');
 
                     for (let d of ${street_name_data}) {
                         const spot = {
@@ -167,19 +157,34 @@ const code = `
                         };
 
                         const isNearRoute = turf.booleanPointInPolygon(spot.geometry.coordinates, poly);
-                    
-                        let marker;
+                       
+
                         if (isNearRoute) {
+                            const pumpkin = new Image(60,60);
+                            pumpkin.src = ('https://jessiejessje.github.io/hackoween/pumpkin.png');
+
                             const marker = new mapboxgl.Marker({
                                     element: pumpkin,
-                                    anchor: 'center'}).setLngLat([d.long, d.lat]).addTo(map);
+                                    anchor: 'center',
+                                                               
+                                }).setLngLat([d.long, d.lat]).addTo(map);
 
                             instructions.innerHTML += d.loc_result + "<li>" + d.coname + "</li> <br></br>";
+                            markers.push(marker);
+
                         } else {
-                            const marker = new mapboxgl.Marker({color: '#efefef'}).setLngLat([d.long, d.lat]).addTo(map);
+                            const ghost = new Image(55,55);
+                            ghost.src = ('https://jessiejessje.github.io/hackoween/ghost.png');
+
+                            const marker = new mapboxgl.Marker({
+                                element: ghost,
+                                anchor: 'center',
+
+                            }).setLngLat([d.long, d.lat]).addTo(map);
+                            markers.push(marker);
                         }
 
-                        markers.push(marker);
+                        
                     }
 
                 } // end of markers
