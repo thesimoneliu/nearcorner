@@ -70,7 +70,7 @@ const code = `
 
             const map = new mapboxgl.Map({
                 container: 'map',
-                style: 'mapbox://styles/mapbox/streets-v11',
+                style: 'mapbox://styles/mapbox/light-v11',
                 center: [
                     -73.9756567, 40.7701070
                 ], // New York City coordinates
