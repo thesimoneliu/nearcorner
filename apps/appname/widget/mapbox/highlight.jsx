@@ -72,7 +72,7 @@ const code = `
                 container: 'map',
                 style: 'mapbox://styles/mapbox/streets-v11',
                 center: [
-                    -73.981997, 40.712776
+                    -73.9756567, 40.7701070
                 ], // New York City coordinates
                 zoom: 12
             });
@@ -141,7 +141,7 @@ const code = `
                     const buffer = turf.buffer(geojson, bufferDistance, {units: 'kilometers'});
                     const poly = turf.polygon([buffer.geometry.coordinates[0]])
 
-                    instructions.innerHTML = "<p><strong>Trip summary: </strong></p>";
+                    instructions.innerHTML = "<p><strong>NYC Memorial Street Names along the route: </strong></p>";
 
                     for (let d of ${street_name_data}) {
                         const spot = {
@@ -156,7 +156,7 @@ const code = `
 
                         if (isNearRoute) {
                             const marker = new mapboxgl.Marker({color: '#ff7518'}).setLngLat([d.long, d.lat]).addTo(map);
-                            instructions.innerHTML += "<li>" + d.coname + "</li>";
+                            instructions.innerHTML += d.loc_result + "<li>" + d.coname + "</li> <br></br>";
                         } else {
                             const marker = new mapboxgl.Marker({color: '#efefef'}).setLngLat([d.long, d.lat]).addTo(map);
                         }
