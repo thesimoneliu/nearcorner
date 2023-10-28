@@ -10,70 +10,34 @@ const onMapClick = props.onMapClick || (() => {})
 const onMarkerClick = props.onMarkerClick || (() => {})
 const edit = props.edit || false
 
-const code = `
-<!DOCTYPE html>
+const code = `<!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
-    
-    <link href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css" rel="stylesheet">
-    
-    <script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
-    
-    <style>
-      body { margin: 0; padding: 0; }
-      #map { position: absolute; top: 0; bottom: 0; width: 100%; }
-
-      .marker {
-        background-image: url('https://i.ibb.co/w6QRm4h/Liberty-Map-Pin-Dark.png');
-        background-size: cover;
-        width: 30px;
-        height: 45px;
-        cursor: pointer;
-      }
-      
-      #mymarker {
-        background-image: url('https://i.ibb.co/w6QRm4h/Liberty-Map-Pin-Dark.png') !important;
-        // filter: invert(1);
-      }
-
-      h6 {
-        margin:0;
-        font-size: 16px;
-      }
-
-      .mapboxgl-popup-content{
-        background: rgb(25, 26, 26);
-        color: white;
-        border: 1px solid;
-        border-radius: 9px;
-        padding: 10px;
-      }
-
-      .mapboxgl-popup-close-button{
-        color: white;
-      }
-
-      .mapboxgl-ctrl-logo {
-        display: none !important;
-      }
-      a {
-        outline: 0;
-      }
-    </style>
+    <script id="search-js" defer src="https://api.mapbox.com/search-js/v1.0.0-beta.17/web.js"></script>
+<script>
+    <style></style>
   </head>
   <body>
 
     <div id="map"></div>
 
     <script>
+
+    const accessToken =  "${ACCESS_TOKEN}";
+ 
+    const script = document.getElementById('search-js');
+    script.onload = function() {
+    mapboxsearch.autofill({ accessToken});
+};
+    </script>
+
+    <script>
     const accountId = "${accountId}";
     const isEditActive = ${edit};
     const markersByAccount = {};
     let selectedMarkerElement = null;
-
-    mapboxgl.accessToken = "${ACCESS_TOKEN}";
 
     const map = new mapboxgl.Map({
         container: 'map', // container ID
@@ -172,36 +136,4 @@ const code = `
 </html>
   `
 
-const Container = styled.div`
-  height: 100%;
-  display: flex;
-
-  /* reset */
-  button,
-  fieldset,
-  input {
-    all: unset;
-  }
-`
-
-return (
-  <Container>
-    <iframe
-      id="myMap"
-      className="w-100 h-100"
-      srcDoc={code}
-      onMessage={(e) => {
-        switch (e.handler) {
-          case 'map-click': {
-            onMapClick(e.data)
-            break
-          }
-          case 'marker-click': {
-            onMarkerClick(e.data)
-            break
-          }
-        }
-      }}
-    />
-  </Container>
-)
+return <></>

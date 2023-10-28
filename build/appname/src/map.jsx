@@ -1,15 +1,14 @@
-const API_URL = props.API_URL || "";
+const API_URL = props.API_URL || ''
 const ACCESS_TOKEN =
-  props.accessToken ||
-  "pk.eyJ1IjoiZWpsYnJhZW0iLCJhIjoiY2xrbmIwaW53MGE0NTNtbGsydWd2MmpyZSJ9.m1ZfEqv2fGet2zblGknT8A";
-const styleUrl = props.styleUrl || "mapbox://styles/mapbox/streets-v12"; // see https://docs.mapbox.com/api/maps/styles/#mapbox-styles
-const center = props.center || [-73.9899, 40.7367]; // starting position [lng, lat]
-const zoom = props.zoom || 13.5; // starting zoom
-const accountId = context.accountId;
-const markers = props.markers || [];
-const onMapClick = props.onMapClick || (() => {});
-const onMarkerClick = props.onMarkerClick || (() => {});
-const edit = props.edit || false;
+  props.accessToken || 'pk.eyJ1IjoiZWpsYnJhZW0iLCJhIjoiY2xrbmIwaW53MGE0NTNtbGsydWd2MmpyZSJ9.m1ZfEqv2fGet2zblGknT8A'
+const styleUrl = props.styleUrl || 'mapbox://styles/mapbox/streets-v12' // see https://docs.mapbox.com/api/maps/styles/#mapbox-styles
+const center = props.center || [-73.9899, 40.7367] // starting position [lng, lat]
+const zoom = props.zoom || 13.5 // starting zoom
+const accountId = context.accountId
+const markers = props.markers || []
+const onMapClick = props.onMapClick || (() => {})
+const onMarkerClick = props.onMarkerClick || (() => {})
+const edit = props.edit || false
 
 const code = `
 <!DOCTYPE html>
@@ -171,7 +170,7 @@ const code = `
     </script>
   </body>
 </html>
-  `;
+  `
 
 const Container = styled.div`
   height: 100%;
@@ -183,7 +182,7 @@ const Container = styled.div`
   input {
     all: unset;
   }
-`;
+`
 
 return (
   <Container>
@@ -193,16 +192,16 @@ return (
       srcDoc={code}
       onMessage={(e) => {
         switch (e.handler) {
-          case "map-click": {
-            onMapClick(e.data);
-            break;
+          case 'map-click': {
+            onMapClick(e.data)
+            break
           }
-          case "marker-click": {
-            onMarkerClick(e.data);
-            break;
+          case 'marker-click': {
+            onMarkerClick(e.data)
+            break
           }
         }
       }}
     />
   </Container>
-);
+)
